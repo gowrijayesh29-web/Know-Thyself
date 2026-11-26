@@ -1,0 +1,11 @@
+export { OverviewPage } from './overview';
+export { DigitalPage } from './digital';
+export { PhysicalPage } from './physical';
+export { NutritionPage } from './nutrition';
+export { SleepPage } from './sleep';
+export { GoalsPage } from './goals';
+export { AIPage } from './ai';
+export { ReportsPage } from './reports';
+export { NotificationsPage } from './notifications';
+export { KnowledgePage } from './knowledge';
+export { SettingsPage } from './settings';

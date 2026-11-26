@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Know Thyself</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', system-ui, sans-serif; }
+    body { width: 360px; }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <div id="app">
+    <!-- Not logged in -->
+    <div id="login-view" class="hidden p-6">
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
+        </div>
+        <h1 class="text-xl font-bold">Know Thyself</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Digital Intelligence Tracker</p>
+      </div>
+      
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+          <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500" placeholder="you@example.com">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+          <input type="password" id="password" required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500" placeholder="••••••••">
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-green-500 to-purple-500 text-white font-medium hover:from-green-600 hover:to-purple-600 transition-all">
+          Sign In
+        </button>
+      </form>
+      
+      <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
+        Don't have an account? <a href="http://localhost:3000/register" target="_blank" class="text-green-500 hover:underline">Sign up</a>
+      </p>
+      
+      <div id="login-error" class="hidden mt-3 p-3 rounded-xl bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm"></div>
+    </div>
+
+    <!-- Logged in -->
+    <div id="dashboard-view" class="hidden p-6">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-lg font-bold">Know Thyself</h1>
+          <p class="text-xs text-gray-500 dark:text-gray-400" id="user-email"></p>
+        </div>
+        <button id="logout-btn" class="p-2 rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Today's Stats -->
+      <div class="grid grid-cols-2 gap-3 mb-6" id="stats-grid">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-gray-400">Screen Time</p>
+          <p class="text-2xl font-bold" id="screen-time">--</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-gray-400">Focus Sessions</p>
+          <p class="text-2xl font-bold" id="focus-sessions">--</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-gray-400">Productive</p>
+          <p class="text-2xl font-bold" id="productive-time">--</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-gray-400">Distractions</p>
+          <p class="text-2xl font-bold" id="distraction-time">--</p>
+        </div>
+      </div>
+
+      <!-- Current Activity -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-4 mb-6">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">Current Activity</h3>
+          <span class="w-2 h-2 rounded-full bg-green-500" id="tracking-indicator"></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" id="current-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12h-1M4 12H3m3.343-5.657l-.707-.707M18 18a2 2 0 000-4 2 2 0 000 4zm-6-2a2 2 0 01-2-2V6a2 2 0 012-2h6a2 2 0 012 2v10a2 2 0 01-2 2H9a2 2 0 01-2-2v-2a2 2 0 012-2h6a2 2 0 012 2v10a2 2 0 01-2 2H9a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-medium truncate" id="current-domain">No active tab</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400" id="current-duration">--</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Sites Today -->
+      <div class="mb-6">
+        <h3 class="font-semibold mb-3">Top Sites Today</h3>
+        <div id="top-sites" class="space-y-2 max-h-48 overflow-y-auto">
+          <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-4">Loading...</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="grid grid-cols-2 gap-3 mb-6">
+        <button id="open-dashboard" class="col-span-2 py-3 rounded-xl bg-gradient-to-r from-green-500 to-purple-500 text-white font-medium hover:from-green-600 hover:to-purple-600 transition-all">
+          Open Full Dashboard
+        </button>
+        <button id="pause-tracking" class="py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          Pause Tracking
+        </button>
+        <button id="sync-now" class="py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          Sync Now
+        </button>
+      </div>
+
+      <!-- Status -->
+      <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+        <span id="sync-status">Last sync: --</span>
+        <span id="extension-version">v1.0.0</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
