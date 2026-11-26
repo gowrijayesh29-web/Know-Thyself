@@ -65,7 +65,7 @@ app.add_middleware(
 if not settings.DEBUG:
     app.add_middleware(
         TrustedHostMiddleware,
-        allowed_hosts=["localhost", "127.0.0.1", "*.knowthyself.app"],
+        allowed_hosts=["localhost", "127.0.0.1", "*.knowthyself.app", "*.onrender.com"],
     )
 
 
